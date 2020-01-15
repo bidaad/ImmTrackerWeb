@@ -15,10 +15,11 @@ export default class ReactGrid extends Component {
             PageNo: 1,
             id: null,
             activePage: 1,
-            pageSize: 10,
+            pageSize: 20,
             totalCount: 0,
             baseID: this.props.baseID,
             isLoading: true,
+            showMode: 1,
         };
     };
 
@@ -26,7 +27,7 @@ export default class ReactGrid extends Component {
 
     handlePageChange = (pageNumber) => {
         this.setState({ activePage: pageNumber });
-        var url = APIUrl + this.state.baseID + '/?pageNo=' + pageNumber + '&takeCount=' + this.state.pageSize
+        var url = APIUrl + this.state.baseID + '/?pageNo=' + pageNumber 
         this.getData(url);
     }
 
@@ -42,7 +43,7 @@ export default class ReactGrid extends Component {
     }
 
     getTotalCount(filter) {
-        var url = APIUrl + this.state.baseID + '/count'
+        var url = APIUrl + this.state.baseID + '/get/count'
         if (filter != undefined)
             url += '?' + filter
         fetch(url)
@@ -73,7 +74,7 @@ export default class ReactGrid extends Component {
                     isLoading: false,
                     message: '',
                     PageNo: this.state.PageNo + 1,
-                    isLoading:false,
+                    isLoading: false,
                 });
             })
             .catch(error => {
@@ -93,8 +94,8 @@ export default class ReactGrid extends Component {
     componentDidMount() {
         const filter = this.props.filter;
         console.log('filter=' + filter);
-        
-        this.setState({ filter: this.props.filter, isLoading:true })
+
+        this.setState({ filter: this.props.filter, isLoading: true })
         //        var url = APIUrl + this.state.baseID + '/?pageNo=' + this.state.activePage + '&takeCount=' + this.state.pageSize
         console.log('XXXXXXXXXXXX');
 
@@ -130,23 +131,47 @@ export default class ReactGrid extends Component {
         const ItemList = () => (
             this.state.data.map((item) => {
 
-                return (
-                    <tr id={item._id} key={item._id}>
-                        {this.props.editable ? <td onClick={() => this.props.deleteRecord(item._id)} scope="col"><span className="text-danger glyphicon glyphicon-trash"></span></td> : null}
-                        {this.props.columns.map((col) => {
-                            const curColName = col.key
-                            var colVal = item[curColName]
-                            if (col.type == Date) {
-                                colVal = this.getDate(colVal);
+                if (this.state.showMode == 1)
+                    return (
+                        <tr id={item._id} key={item._id}>
+                            {this.props.editable ? <td onClick={() => this.props.deleteRecord(item._id)} scope="col"><span className="btn btn-danger fa fa-trash"></span></td> : null}
+                            {this.props.columns.map((col) => {
+                                const curColName = col.key
+                                var colVal = item[curColName]
+                                if (col.type == Date) {
+                                    colVal = this.getDate(colVal);
+                                }
+                                return (
+                                    <td onClick={() => this.props.editRecord(item._id)} key={col.key} scope="col">{colVal}</td>
+                                )
+                            })
                             }
-                            return (
-                                <td onClick={() => this.props.editRecord(item._id)} key={col.key} scope="col">{colVal}</td>
-                            )
-                        })
-                        }
+                        </tr>
+                    )
+                else
+                    return (
+                        <li className="caselistitem" id={item._id} key={item._id}>
+                            <ul className="casecard">
+                                {this.props.editable ? <li onClick={() => this.props.deleteRecord(item._id)} scope="col"><span className="btn btn-danger fa fa-trash"></span></li> : null}
+                                {this.props.columns.map((col) => {
+                                    const curColKey = col.key;
+                                    const curColName = col.name;
+                                    var colVal = item[curColKey]
+                                    if (col.type == Date) {
+                                        colVal = this.getDate(colVal);
+                                    }
+                                    if (colVal != null)
+                                    if (colVal.length > 0)
+                                        return (
+                                            <li onClick={() => this.props.editRecord(item._id)} key={col.key} scope="col">
+                                                <span className="lbl">{curColName}</span>: {colVal}</li>
+                                        )
+                                })
+                                }
+                            </ul>
+                        </li>
+                    )
 
-                    </tr>
-                )
             })
 
         );
@@ -155,25 +180,43 @@ export default class ReactGrid extends Component {
             return Loading;
         return (
             <div>
-                <div>
+                <div className="float-left">
                     <h1>{this.props.title} List</h1>
                 </div>
-                <table className="tblRecords table table-hover table-striped">
-                    <thead>
-                        <tr>
-                            {this.props.editable ? <td  scope="col"> </td> : null}
-                            {this.props.columns.map((item) => {
-                                return (
-                                    <th key={item.key} scope="col">{item.name}</th>
-                                )
-                            })
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
+                <div className="float-right">
+                    
+                            <button onClick={() => this.setState({showMode:1})} className="m-2 btn btn-primary" >Grid</button>
+                        
+                            <button onClick={() => this.setState({showMode:2})} className="m-2 btn btn-info" >Cards</button>
+                        
+                    </div>
+                <div className="clearfix"></div>
+
+                {this.state.showMode == 1 ?
+                    <table className="tblRecords table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                {this.props.editable ? <td scope="col"> </td> : null}
+                                {this.props.columns.map((item) => {
+                                    return (
+                                        <th key={item.key} scope="col">{item.name}</th>
+                                    )
+                                })
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ItemList />
+                        </tbody>
+                    </table>
+                    : null}
+                {this.state.showMode == 2 ?
+                    <ul className="caselist">
                         <ItemList />
-                    </tbody>
-                </table>
+                        <div className="clearfix"></div>
+                    </ul>
+                    : null}
+
                 {Loading}
                 <div>
                     <Pagination

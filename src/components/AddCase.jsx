@@ -1340,9 +1340,11 @@ export default class AddCase extends Component {
         //console.log('id=' + this.props.location.id);
         //this.props.setUserID(response.data._id)
 
+        console.log(this.props.userData);
+
         if (this.props.userData == null) {
             const { match, location, history } = this.props;
-            history.push('/login')
+            history.push('/login');
         }
         else {
             this.setState({
@@ -1370,192 +1372,202 @@ export default class AddCase extends Component {
                     <div>
                         <h1 className="form-header">My Case</h1>
                         <div className="AddCase">
+                            <div className="row">
+                                <div className="col">
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label required">Nationality</label>
+                                        <div className="col-sm-7">
+                                            <Select className="dropdownContainer" required onChange={this.handleNationalities} value={nationalities.filter(option => option.label === this.state.Nationality)} options={nationalities} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticEmail" className="col-sm-5 col-form-label required">e-APR AOR Date</label>
+                                        <div className="col-sm-7 text-left">
+                                            <DatePicker
+                                                selected={this.state.AORDate}
+                                                onChange={this.handleAORDateChange}
+                                            />
+                                            <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label required">Country of Residence</label>
+                                        <div className="col-sm-7 ">
+                                            <Select className="dropdownContainer" onChange={this.handleCountries} options={countries} value={countries.filter(option => option.label === this.state.Country)} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label">Stream</label>
+                                        <div className="col-sm-7">
+                                            <Select className="dropdownContainer" onChange={this.handleStream} options={streams} value={streams.filter(option => option.label === this.state.ImmStream)} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label required">Current Status</label>
+                                        <div className="col-sm-7">
+                                            <Select className="dropdownContainer" onChange={this.handleCurrentStatus} options={statuses} value={statuses.filter(option => option.label === this.state.CurrentStatus)} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticEmail" className="col-sm-5 col-form-label">Date Medical Passed</label>
+                                        <div className="col-sm-7 text-left">
+                                            <DatePicker
+                                                selected={this.state.MedicalPassedDate}
+                                                onChange={this.handleMedicalPassedDateChange}
+                                            />
+                                            <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticEmail" className="col-sm-5 col-form-label">Biometrics Invitation Letter</label>
+                                        <div className="col-sm-7 text-left">
+                                            <DatePicker
+                                                selected={this.state.BiometricsInvitationLetterDate}
+                                                onChange={this.handleBiometricsInvitationLetterDateChange}
+                                            />
+                                            <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label">Background Check Status</label>
+                                        <div className="col-sm-7">
+                                            <Select className="dropdownContainer" onChange={this.handleBGStatus} options={BGstatuses} value={BGstatuses.filter(option => option.label === this.state.BGCheckStatus)} />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col">
+                                    <div className="form-group row">
+                                        <label htmlFor="staticEmail" className="col-sm-5 col-form-label">Last BGS change Date</label>
+                                        <div className="col-sm-7 text-left">
+                                            <DatePicker
+                                                selected={this.state.BGSChangeDate}
+                                                onChange={this.handleBGSChangeDateChange}
+                                            />
+                                            <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label">Applicant + dependents</label>
+                                        <div className="col-sm-7">
+                                            <Select className="dropdownContainer" onChange={this.handlePrincipalApplicantDependents} options={applicantNumbers} value={applicantNumbers.filter(option => option.label === this.state.PrincipalApplicantDependents)} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticEmail" className="col-sm-5 col-form-label">PPR Date</label>
+                                        <div className="col-sm-7 text-left">
+                                            <DatePicker
+                                                selected={this.state.PPRDate}
+                                                onChange={this.handlePPRDateChange}
+                                            />
+                                            <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label">NOC</label>
+                                        <div className="col-sm-7">
+                                            <Select className="dropdownContainer" onChange={this.handleNOC} options={NOCList} value={NOCList.filter(option => option.value === this.state.NOC)} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label">Visa Office</label>
+                                        <div className="col-sm-7">
+                                            <Select className="dropdownContainer" onChange={this.handleVisaOffice} options={visaOfficeList} value={visaOfficeList.filter(option => option.label === this.state.VisaOffice)} />
+                                        </div>
+                                    </div>
 
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label required">Nationality</label>
-                                <div className="col-sm-9">
-                                    <Select className="dropdownContainer" required onChange={this.handleNationalities} value={nationalities.filter(option => option.label === this.state.Nationality)} options={nationalities} />
+                                    <div className="form-group row">
+                                        <label htmlFor="staticAdditionalInfo" className="col-sm-5 col-form-label">Additional Info</label>
+                                        <div className="col-sm-7">
+                                            <input type="text" onChange={(e) => this.handleAdditionalInfo(e)} className="form-control" id="staticAdditionalInfo" />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticBGStartDate" className="col-sm-5 col-form-label">Background check started</label>
+                                        <div className="col-sm-7 text-left">
+                                            <DatePicker
+                                                selected={this.state.BGCheckStartDate}
+                                                onChange={this.handleBGCheckStartDateChange}
+                                            />
+                                            <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticBGStartDate" className="col-sm-5 col-form-label">Employment Verification date</label>
+                                        <div className="col-sm-7 text-left">
+                                            <DatePicker
+                                                selected={this.state.EmploymentVerificationDate}
+                                                onChange={this.handleEmploymentVerificationDateChange}
+                                            />
+                                            <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
+                                        </div>
+                                    </div>
+                                    </div>
+                                <div className="col">
+                                <div className="form-group row">
+                                        <label htmlFor="staticBGStartDate" className="col-sm-5 col-form-label">Additional Doc Request</label>
+                                        <div className="col-sm-7 text-left">
+                                            <DatePicker
+                                                selected={this.state.AdditionalDocReqDate}
+                                                onChange={this.handleAdditionalDocReqDateChange}
+                                            />
+                                            <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label">Sponsored by Province</label>
+                                        <div className="col-sm-7">
+                                            <Select className="dropdownContainer" onChange={this.handleProvinceSponsor} options={provinceList} value={provinceList.filter(option => option.label === this.state.ProvinceSponsor)} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticBGStartDate" className="col-sm-5 col-form-label">RPRF paid date</label>
+                                        <div className="col-sm-7 text-left">
+                                            <DatePicker
+                                                selected={this.state.RPRFPaidDate}
+                                                onChange={this.handleRPRFPaidDateChange}
+                                            />
+                                            <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="CRSScore" className="col-sm-5 col-form-label">CRS Score</label>
+                                        <div className="col-sm-7">
+                                            <input type="text" onChange={(e) => this.handleCRSScore(e)} className="form-control" id="CRSScore" />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label">GCMS Notes ordered</label>
+                                        <div className="col-sm-7 text-left">
+                                            <Checkbox
+                                                checked={this.state.GCMSNotesOrdered}
+                                                onChange={this.handleGCMSOrderChange}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label">Security Screening</label>
+                                        <div className="col-sm-7 text-left">
+                                            <Checkbox
+                                                checked={this.state.SecurityScreening}
+                                                onChange={this.handleSecurityScreeningChange}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="form-group row">
+                                        <label htmlFor="staticNationality" className="col-sm-5 col-form-label">Refused</label>
+                                        <div className="col-sm-7 text-left">
+                                            <Checkbox
+                                                checked={this.state.Refused}
+                                                onChange={this.handleRefusedChange}
+                                            />
+                                        </div>
+                                    </div>
+                                
                                 </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticEmail" className="col-sm-3 col-form-label required">e-APR AOR Date</label>
-                                <div className="col-sm-9 text-left">
-                                    <DatePicker
-                                        selected={this.state.AORDate}
-                                        onChange={this.handleAORDateChange}
-                                    />
-                                    <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label required">Country of Residence</label>
-                                <div className="col-sm-9 ">
-                                    <Select className="dropdownContainer" onChange={this.handleCountries} options={countries} value={countries.filter(option => option.label === this.state.Country)} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label">Stream</label>
-                                <div className="col-sm-9">
-                                    <Select className="dropdownContainer" onChange={this.handleStream} options={streams} value={streams.filter(option => option.label === this.state.ImmStream)} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label required">Current Status</label>
-                                <div className="col-sm-9">
-                                    <Select className="dropdownContainer" onChange={this.handleCurrentStatus} options={statuses} value={statuses.filter(option => option.label === this.state.CurrentStatus)} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Date Medical Passed</label>
-                                <div className="col-sm-9 text-left">
-                                    <DatePicker
-                                        selected={this.state.MedicalPassedDate}
-                                        onChange={this.handleMedicalPassedDateChange}
-                                    />
-                                    <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Biometrics Invitation Letter</label>
-                                <div className="col-sm-9 text-left">
-                                    <DatePicker
-                                        selected={this.state.BiometricsInvitationLetterDate}
-                                        onChange={this.handleBiometricsInvitationLetterDateChange}
-                                    />
-                                    <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label">Background Check Status</label>
-                                <div className="col-sm-9">
-                                    <Select className="dropdownContainer" onChange={this.handleBGStatus} options={BGstatuses} value={BGstatuses.filter(option => option.label === this.state.BGCheckStatus)} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">Last BGS change Date</label>
-                                <div className="col-sm-9 text-left">
-                                    <DatePicker
-                                        selected={this.state.BGSChangeDate}
-                                        onChange={this.handleBGSChangeDateChange}
-                                    />
-                                    <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label">Principal applicant + dependents</label>
-                                <div className="col-sm-9">
-                                    <Select className="dropdownContainer" onChange={this.handlePrincipalApplicantDependents} options={applicantNumbers} value={applicantNumbers.filter(option => option.label === this.state.PrincipalApplicantDependents)} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticEmail" className="col-sm-3 col-form-label">PPR Date</label>
-                                <div className="col-sm-9 text-left">
-                                    <DatePicker
-                                        selected={this.state.PPRDate}
-                                        onChange={this.handlePPRDateChange}
-                                    />
-                                    <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label">NOC</label>
-                                <div className="col-sm-9">
-                                    <Select className="dropdownContainer" onChange={this.handleNOC} options={NOCList} value={NOCList.filter(option => option.value === this.state.NOC)} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label">Visa Office</label>
-                                <div className="col-sm-9">
-                                    <Select className="dropdownContainer" onChange={this.handleVisaOffice} options={visaOfficeList} value={visaOfficeList.filter(option => option.label === this.state.VisaOffice)} />
-                                </div>
+
                             </div>
 
 
-                            <div className="form-group row">
-                                <label htmlFor="staticAdditionalInfo" className="col-sm-3 col-form-label">Additional Info</label>
-                                <div className="col-sm-9">
-                                    <input type="text" onChange={(e) => this.handleAdditionalInfo(e)} className="form-control" id="staticAdditionalInfo" />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticBGStartDate" className="col-sm-3 col-form-label">Date Background check started</label>
-                                <div className="col-sm-9 text-left">
-                                    <DatePicker
-                                        selected={this.state.BGCheckStartDate}
-                                        onChange={this.handleBGCheckStartDateChange}
-                                    />
-                                    <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticBGStartDate" className="col-sm-3 col-form-label">Employment Verification date</label>
-                                <div className="col-sm-9 text-left">
-                                    <DatePicker
-                                        selected={this.state.EmploymentVerificationDate}
-                                        onChange={this.handleEmploymentVerificationDateChange}
-                                    />
-                                    <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticBGStartDate" className="col-sm-3 col-form-label">Additional Document Request Date</label>
-                                <div className="col-sm-9 text-left">
-                                    <DatePicker
-                                        selected={this.state.AdditionalDocReqDate}
-                                        onChange={this.handleAdditionalDocReqDateChange}
-                                    />
-                                    <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label">Sponsored by Province (if PNP)</label>
-                                <div className="col-sm-9">
-                                    <Select className="dropdownContainer" onChange={this.handleProvinceSponsor} options={provinceList} value={provinceList.filter(option => option.label === this.state.ProvinceSponsor)} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticBGStartDate" className="col-sm-3 col-form-label">RPRF paid date</label>
-                                <div className="col-sm-9 text-left">
-                                    <DatePicker
-                                        selected={this.state.RPRFPaidDate}
-                                        onChange={this.handleRPRFPaidDateChange}
-                                    />
-                                    <FontAwesomeIcon className="ml-2 calendar" icon={faCalendarAlt} />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="CRSScore" className="col-sm-3 col-form-label">CRS Score</label>
-                                <div className="col-sm-9">
-                                    <input type="text" onChange={(e) => this.handleCRSScore(e)} className="form-control" id="CRSScore" />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label">GCMS Notes ordered (if any)</label>
-                                <div className="col-sm-9 text-left">
-                                    <Checkbox
-                                        checked={this.state.GCMSNotesOrdered}
-                                        onChange={this.handleGCMSOrderChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label">Security Screening</label>
-                                <div className="col-sm-9 text-left">
-                                    <Checkbox
-                                        checked={this.state.SecurityScreening}
-                                        onChange={this.handleSecurityScreeningChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className="form-group row">
-                                <label htmlFor="staticNationality" className="col-sm-3 col-form-label">Refused</label>
-                                <div className="col-sm-9 text-left">
-                                    <Checkbox
-                                        checked={this.state.Refused}
-                                        onChange={this.handleRefusedChange}
-                                    />
-                                </div>
-                            </div>
                         </div>
                     </div>
                     : null}

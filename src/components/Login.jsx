@@ -41,6 +41,8 @@ export default class Login extends Component {
         fetch('https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=' + googleTokenID)
             .then(response => response.json())
             .then(data => {
+                console.log('data.given_name=' + data.given_name);
+                
                 this.setState({
                     googleTokenID: googleTokenID,
                     firstName: data.given_name,
@@ -61,42 +63,23 @@ export default class Login extends Component {
 
 
     login = (firstName, lastName, email, picture, googleTokenID, facebookTokenID) => {
-        console.log('try login');
+        console.log('try login'+ firstName) ;
 
-        //axios.defaults.withCredentials = true
-        // axios.post('http://localhost:3000/api/login/', {
-        //     email: email,
-        //     googleTokenID: googleTokenID,
-        //     facebookTokenID: facebookTokenID,
-        //     firstName: firstName,
-        //     lastName: lastName
-        // })
-        axios.defaults.withCredentials = true
-
-        console.log('http://localhost:3000/api/login/?' +
-            'email=' + email +
-            '&googleTokenID=' + googleTokenID +
-            '&facebookTokenID=' + facebookTokenID +
-            '&firstName=' + firstName +
-            '&lastName=' + lastName
-        )
-
-        //axios.defaults.withCredentials = true
-        axios.get('http://localhost:3000/api/login/?' +
-            'email=' + email +
-            '&googleTokenID=' + googleTokenID +
-            '&facebookTokenID=' + facebookTokenID +
-            '&firstName=' + firstName +
-            '&lastName=' + lastName
-        )
+        axios.post('http://localhost:3000/api/login/', {
+            email: email,
+            googleTokenID: googleTokenID,
+            facebookTokenID: facebookTokenID,
+            firstName: firstName,
+            lastName: lastName
+        })
             .then((response) => {
-                console.log('User ID = ' + response);
                 if (response.data == 'LoginError') {
                     this.setState({ message: 'Invalid user' })
                     return;
                 }
-
-                this.props.setUserInfo(response.data._id, firstName, lastName, email, picture)
+                console.log('userToken=' + response.data.UserToken);
+                
+                this.props.setUserInfo(response.data._id, firstName, lastName, email, picture, response.data.UserToken)
                 const { match, location, history } = this.props;
                 history.push({
                     pathname: '/home',
@@ -123,7 +106,7 @@ export default class Login extends Component {
                     this.setState({ message: 'Invalid user' })
                 else
                     this.setState({ message: 'Success Login' })
-                console.log(response);
+                //console.log(response);
             })
             .catch((error) => {
                 console.log(error);
